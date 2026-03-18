@@ -1,0 +1,33 @@
+name: mock_plan_and_render
+
+load_stage:
+  scene_loader:                            # 纯 CPU mock loader
+    type: mock_loader
+    args:
+      workflow_type: MockWorkFlow
+      cfg_path: workflows/mock_tasks.json  # 简单的 mock task 配置（若不存在会用默认）
+      task_repeat: 1
+      need_preload: false
+  layout_random_generator:                 # 使用已有的 env_randomizer，逻辑在 MockWorkFlow 中
+    type: env_randomizer
+    args:
+      random_num: 1
+      strict_mode: false
+
+plan_stage:
+  seq_planner:                             # 生成整数序列
+    type: env_planner
+    args: {}
+
+render_stage:
+  renderer:                                # 把整数序列“渲染”为平方结果
+    type: env_renderer
+
+store_stage:
+  writer:                                  # 保存 seq.json 和 obs.json
+    type: env_writer
+    args:
+      batch_async: false                   # 最简单起见，用同步写
+      seq_output_dir: output/${name}/seq
+      output_dir: output/${name}/obs
+

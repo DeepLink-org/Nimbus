@@ -1,0 +1,30 @@
+name: simbox_plan_and_render
+load_stage:
+  scene_loader:                            # Scene loader
+    type: env_loader
+    args:
+      workflow_type: SimBoxDualWorkFlow
+      cfg_path: workflows/simbox/core/configs/tasks/example/sort_the_rubbish.yaml  # Task config path
+      simulator:
+        physics_dt: 1/30                   # Physics update rate
+        rendering_dt: 1/30                 # Render update rate
+        stage_units_in_meters: 1.0         # Stage unit scale
+        headless: True                     # Headless mode (no GUI); set false for visual debugging
+        anti_aliasing: 0                   # Anti-aliasing level
+  layout_random_generator:                 # Scene randomization
+    type: env_randomizer
+    args:
+      random_num: 6                        # Number of random samples per task
+      strict_mode: true                    # true: output count must equal random_num
+plan_stage:
+  seq_planner:                             # Trajectory planner
+    type: env_planner
+render_stage:
+  renderer:                                # Renderer
+    type: env_renderer
+store_stage:
+  writer:                                  # Data writer
+    type: env_writer
+    args:
+      batch_async: true                    # Async writes (better perf, more memory)
+      output_dir: output/${name}/          # Output directory

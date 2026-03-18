@@ -1,0 +1,8 @@
+{
+  "exclude": [
+    "workflows/simbox/assets",
+    "workflows/simbox/curobo",
+    "workflows/simbox/panda_drake",
+    "profile"
+  ]
+}

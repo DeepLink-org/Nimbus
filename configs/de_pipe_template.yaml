@@ -1,0 +1,62 @@
+name: simbox_pipe_dynamic_actor
+load_stage:
+  scene_loader:                            # Scene loader (plan process)
+    type: env_loader
+    args:
+      workflow_type: SimBoxDualWorkFlow
+      cfg_path: workflows/simbox/core/configs/tasks/example/sort_the_rubbish.yaml  # Task config path
+      simulator:
+        physics_dt: 1/30                   # Physics update rate
+        rendering_dt: 1/30                 # Render update rate
+        stage_units_in_meters: 1.0         # Stage unit scale
+        headless: True                     # Headless mode (no GUI); set false for visual debugging
+        anti_aliasing: 0                   # Anti-aliasing level
+  layout_random_generator:                 # Scene randomization
+    type: env_randomizer
+    args:
+      random_num: 3                        # Number of random samples per task
+      strict_mode: true                    # true: output count must equal random_num
+plan_stage:
+  seq_planner:                             # Trajectory planner
+    type: env_planner
+dump_stage:
+  dumper:                                  # Serialize plan results for render process
+    type: env
+dedump_stage:
+  dedumper:                                # Deserialize plan results in render process
+    type: de
+  scene_loader:                            # Scene loader (render process)
+    type: env_loader
+    args:
+      workflow_type: SimBoxDualWorkFlow
+      cfg_path: workflows/simbox/core/configs/tasks/example/sort_the_rubbish.yaml  # Must match load_stage cfg_path
+      simulator:
+        physics_dt: 1/30                   # Physics update rate
+        rendering_dt: 1/30                 # Render update rate
+        rendering_interval: 5              # Render every N physics steps
+        headless: true                     # Headless mode
+        multi_gpu: true                    # Enable multi-GPU for render workers
+  layout_random_generator:
+    type: env_randomizer
+  seq_planner:                             # Reads serialized trajectories
+    type: env_reader
+render_stage:
+  renderer:                                # Renderer
+    type: env_renderer
+store_stage:
+  writer:                                  # Data writer
+    type: env_writer
+    args:
+      batch_async: false                   # Sync writes (safer for pipe mode)
+      output_dir: output/${name}/          # Output directory
+stage_pipe:
+  stage_num: [3, 3]                        # Number of pipeline stages [plan, render]
+  stage_dev: ["gpu", "gpu"]                # Device type per stage
+  worker_num: [2, 1]                       # Number of workers per stage [plan, render]
+  worker_schedule: True                    # Enable dynamic worker scheduling
+  safe_threshold: 100                      # Max pending items before throttling
+  status_timeouts:                         # Worker timeout thresholds (seconds, -1 = infinite)
+    idle: 360                              # Max idle time before restart
+    ready: -1                              # Max time in ready state
+    running: 600                           # Max running time per task
+  monitor_check_interval: 120              # Health check interval (seconds)

@@ -1,0 +1,27 @@
+[tool.pytest.ini_options]
+# Test configuration for better isolation
+addopts = [
+    "--verbose",
+    "--tb=short", 
+    "--strict-markers",
+]
+
+# Test discovery
+testpaths = ["test"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Warnings
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Markers
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests", 
+    "slow: Slow tests",
+    "isaac_sim: Tests requiring Isaac Sim",
+]

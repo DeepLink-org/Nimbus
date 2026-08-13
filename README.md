@@ -1,6 +1,6 @@
 <div align="center">
 
-# Nimbus: A Unified Embodied Synthetic Data Generation Framework
+# Nimbus：面向具身智能的统一合成数据生成框架
 
 </div>
 
@@ -14,12 +14,12 @@
 
 </div>
 
-## 💻 About
+## 💻 关于
 
-Nimbus is a scalable synthetic data generation framework that supports large-scale dataset production for both embodied navigation and manipulation tasks. It already powers the generation and public release of the InternData series([A1](https://huggingface.co/datasets/InternRobotics/InternData-A1)/[N1](https://huggingface.co/datasets/InternRobotics/InternData-N1)/[M1](https://huggingface.co/datasets/InternRobotics/InternData-M1)), and can be integrated into different simulation backends to orchestrate planning, rendering, and storage at scale. For best practices and end-to-end usage examples, please refer to [**InternDataEngine**](https://github.com/InternRobotics/InternDataEngine), which provides a complete stack built on top of Nimbus.
+Nimbus 是一个可扩展的合成数据生成框架，支持面向具身导航和操作任务的大规模数据集生产。它已经支撑了 InternData 系列（[A1](https://huggingface.co/datasets/InternRobotics/InternData-A1)/[N1](https://huggingface.co/datasets/InternRobotics/InternData-N1)/[M1](https://huggingface.co/datasets/InternRobotics/InternData-M1)）的生成和公开发布，并可集成到不同的仿真后端中，以大规模编排规划、渲染和存储流程。关于最佳实践和端到端使用示例，请参阅 [**InternDataEngine**](https://github.com/InternRobotics/InternDataEngine)，它提供了一套基于 Nimbus 构建的完整技术栈。
 
-## License and Citation
-All the code within this repo are under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Please consider citing our papers if it helps your research.
+## 许可与引用
+本仓库中的所有代码均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可。如果本项目对你的研究有所帮助，请考虑引用我们的论文。
 
 ```BibTeX
 @article{he2026nimbus,
